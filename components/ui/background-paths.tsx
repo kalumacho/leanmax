@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MoveRight, PhoneCall } from "lucide-react";
+import { PhoneCall } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -70,7 +70,7 @@ export function BackgroundPaths() {
   }, [titleNumber, titles]);
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#1A3A5C]">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#0F1E2E]">
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
@@ -96,7 +96,7 @@ export function BackgroundPaths() {
               asChild
             >
               <Link href="/pourquoi-leanmax">
-                Vertical Conseil <MoveRight className="w-3 h-3" />
+                Vertical Conseil
               </Link>
             </Button>
           </motion.div>
