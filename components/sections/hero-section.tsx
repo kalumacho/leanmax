@@ -1,5 +1,5 @@
-import { Hero } from "@/components/ui/animated-hero";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 
 export default function HeroSection() {
-  return <Hero />;
+  return <BackgroundPaths />;
 }

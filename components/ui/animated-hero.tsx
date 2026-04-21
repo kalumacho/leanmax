@@ -35,7 +35,7 @@ function Hero() {
               asChild
             >
               <Link href="/pourquoi-leanmax">
-                Infrastructure IA · Vertical Conseil <MoveRight className="w-4 h-4" />
+                Vertical Conseil <MoveRight className="w-4 h-4" />
               </Link>
             </Button>
           </div>
@@ -43,7 +43,7 @@ function Hero() {
           {/* Title */}
           <div className="flex gap-4 flex-col">
             <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-bold leading-tight">
-              <span style={{ color: "#1A3A5C" }}>Industrialisez</span>
+              <span style={{ color: "#1A3A5C" }}>Scalez</span>
               <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1" style={{ minHeight: "1.2em" }}>
                 &nbsp;
                 {titles.map((title, index) => (
@@ -92,20 +92,6 @@ function Hero() {
                 Prendre contact <PhoneCall className="w-4 h-4" />
               </Link>
             </Button>
-          </div>
-
-          {/* Metrics */}
-          <div className="flex gap-12 pt-4">
-            {[
-              { value: "−60%", label: "temps de production" },
-              { value: "+35%", label: "productivité sénior" },
-              { value: "90j", label: "premier ROI" },
-            ].map((m) => (
-              <div key={m.value} className="text-center">
-                <div className="text-2xl font-bold tabular-nums" style={{ color: "#1A3A5C" }}>{m.value}</div>
-                <div className="text-xs text-[#595959] mt-1">{m.label}</div>
-              </div>
-            ))}
           </div>
 
         </div>

@@ -1,13 +1,13 @@
 import Link from "next/link";
+import Logo from "@/components/ui/logo";
 
 export default function Footer() {
   return (
     <footer className="bg-[#1A3A5C] text-white/70 py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div>
-          <div className="flex items-center gap-1 font-bold text-xl text-white mb-3">
-            <span>LEAN</span>
-            <span style={{ color: "#C0392B" }}>Max</span>
+          <div className="mb-3">
+            <Logo size="md" variant="dark" />
           </div>
           <p className="text-sm italic text-white/50">Scalez par la puissance, pas par la masse.</p>
         </div>

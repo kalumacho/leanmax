@@ -2,9 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { MoveRight, PhoneCall } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 function FloatingPaths({ position }: { position: number }) {
+  // Durées déterministes — pas de Math.random() pour éviter l'erreur d'hydratation
+  const durations = [22,25,28,21,24,27,30,23,26,29,20,25,22,28,24,27,21,26,23,29,25,22,28,24,27,30,21,26,23,25,28,22,29,24,27,21];
   const paths = Array.from({ length: 36 }, (_, i) => ({
     id: i,
     d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
@@ -15,19 +19,24 @@ function FloatingPaths({ position }: { position: number }) {
       684 - i * 5 * position
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
     width: 0.5 + i * 0.03,
+    duration: durations[i],
   }));
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <svg className="w-full h-full" viewBox="0 0 696 316" fill="none">
+      <svg
+        className="w-full h-full text-white"
+        viewBox="0 0 696 316"
+        fill="none"
+      >
         <title>Background Paths</title>
         {paths.map((path) => (
           <motion.path
             key={path.id}
             d={path.d}
-            stroke="#1A3A5C"
+            stroke="currentColor"
             strokeWidth={path.width}
-            strokeOpacity={0.06 + path.id * 0.018}
+            strokeOpacity={0.1 + path.id * 0.03}
             initial={{ pathLength: 0.3, opacity: 0.6 }}
             animate={{
               pathLength: 1,
@@ -35,7 +44,7 @@ function FloatingPaths({ position }: { position: number }) {
               pathOffset: [0, 1, 0],
             }}
             transition={{
-              duration: 20 + Math.random() * 10,
+              duration: path.duration,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
             }}
@@ -46,140 +55,131 @@ function FloatingPaths({ position }: { position: number }) {
   );
 }
 
-export function BackgroundPaths({
-  title = "Scalez par la puissance pas par la masse",
-  subtitle = "L'infrastructure IA des cabinets de conseil — industrialisez la delivery, capitalisez le savoir, préservez la valeur sénior.",
-  ctaLabel = "Diagnostic gratuit",
-  ctaHref = "/contact",
-  badge = "Infrastructure IA · Vertical Conseil",
-}: {
-  title?: string;
-  subtitle?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
-  badge?: string;
-}) {
-  const words = title.split(" ");
+export function BackgroundPaths() {
+  const [titleNumber, setTitleNumber] = useState(0);
+  const titles = useMemo(
+    () => ["la delivery", "le savoir", "la méthode", "la valeur sénior", "la compétence"],
+    []
+  );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setTitleNumber((prev) => (prev === titles.length - 1 ? 0 : prev + 1));
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [titleNumber, titles]);
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-neutral-950">
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
       </div>
-
-      {/* Subtle red accent bottom-right */}
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(192,57,43,0.06) 0%, transparent 70%)" }} />
 
       <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-4xl mx-auto flex flex-col items-center gap-8"
         >
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-10 border text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "#C0392B", borderColor: "rgba(192,57,43,0.25)", background: "rgba(192,57,43,0.04)" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#C0392B" }} />
-            {badge}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-3 text-xs font-semibold uppercase tracking-widest rounded-full border border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white/80"
+              asChild
+            >
+              <Link href="/pourquoi-leanmax">
+                Vertical Conseil <MoveRight className="w-3 h-3" />
+              </Link>
+            </Button>
           </motion.div>
 
-          {/* Animated title */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter leading-tight">
-            {words.map((word, wordIndex) => (
-              <span key={wordIndex} className="inline-block mr-4 last:mr-0">
-                {word.split("").map((letter, letterIndex) => (
-                  <motion.span
-                    key={`${wordIndex}-${letterIndex}`}
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      delay: wordIndex * 0.1 + letterIndex * 0.03,
-                      type: "spring",
-                      stiffness: 150,
-                      damping: 25,
-                    }}
-                    className="inline-block text-transparent bg-clip-text"
-                    style={{
-                      backgroundImage:
-                        wordIndex < 3
-                          ? "linear-gradient(to bottom right, #1A3A5C, #2D5F8A)"
-                          : "linear-gradient(to bottom right, #C0392B, #E85D4A)",
-                    }}
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
+          {/* Title — une seule ligne */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter text-center flex flex-wrap items-center justify-center gap-x-4">
+            {/* "Scalez" */}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">
+              Scalez
+            </span>
+
+            {/* Mot rotatif — hauteur et largeur fixes, overflow caché */}
+            <span
+              className="relative overflow-hidden inline-block"
+              style={{ height: "1.2em", minWidth: "14ch", verticalAlign: "middle" }}
+            >
+              {titles.map((title, index) => (
+                <motion.span
+                  key={index}
+                  className="absolute inset-0 flex items-center justify-center font-bold text-transparent bg-clip-text whitespace-nowrap"
+                  style={{ backgroundImage: "linear-gradient(to right, #E85D4A, #C0392B)" }}
+                  initial={{ opacity: 0, y: 80 }}
+                  transition={{ type: "spring", stiffness: 60, damping: 20 }}
+                  animate={
+                    titleNumber === index
+                      ? { y: 0, opacity: 1 }
+                      : { y: titleNumber > index ? -80 : 80, opacity: 0 }
+                  }
+                >
+                  {title}
+                </motion.span>
+              ))}
+            </span>
           </h1>
 
-          {/* Subtitle */}
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="text-lg text-[#595959] mb-12 leading-relaxed max-w-xl mx-auto font-light"
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="text-lg md:text-xl text-white/40 leading-relaxed font-light max-w-xl"
           >
-            {subtitle}
+            L'infrastructure IA des cabinets de conseil — pour produire plus vite, capitaliser le savoir et préserver la valeur sénior là où elle restera rare.
           </motion.p>
 
-          {/* CTA */}
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            transition={{ duration: 0.8, delay: 0.9 }}
+            className="flex flex-col sm:flex-row gap-4"
           >
-            <div className="inline-block group relative p-px rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-              style={{ background: "linear-gradient(to bottom, rgba(26,58,92,0.15), rgba(255,255,255,0.1))" }}>
+            <div className="inline-block group relative bg-gradient-to-b from-white/10 to-black/10 p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <Button
                 variant="ghost"
-                className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-white/95 hover:bg-white text-[#1A3A5C] transition-all duration-300 group-hover:-translate-y-0.5 border border-[#1A3A5C]/10 hover:shadow-md"
+                className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-black/95 hover:bg-black/100 text-white transition-all duration-300 group-hover:-translate-y-0.5 border border-white/10 hover:shadow-md"
                 asChild
               >
-                <Link href={ctaHref}>
-                  <span className="opacity-90 group-hover:opacity-100 transition-opacity">{ctaLabel}</span>
-                  <span className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-300">→</span>
+                <Link href="/contact">
+                  <span className="opacity-90 group-hover:opacity-100 transition-opacity">
+                    Diagnostic gratuit
+                  </span>
+                  <span className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-300">
+                    →
+                  </span>
                 </Link>
               </Button>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.3 }}
-            >
-              <Button variant="ghost" className="px-8 py-6 text-lg text-[#595959] hover:text-[#1A3A5C] transition-colors" asChild>
-                <Link href="/solution">Voir la solution →</Link>
+            <div className="inline-block group relative bg-gradient-to-b from-white/5 to-black/5 p-px rounded-2xl backdrop-blur-lg overflow-hidden transition-shadow duration-300">
+              <Button
+                variant="ghost"
+                className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-transparent hover:bg-white/5 text-white/50 hover:text-white/80 transition-all duration-300 group-hover:-translate-y-0.5 border border-white/10"
+                asChild
+              >
+                <Link href="/solution">
+                  <span className="opacity-90 group-hover:opacity-100 transition-opacity">
+                    Voir la solution
+                  </span>
+                  <PhoneCall className="ml-3 w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </Link>
               </Button>
-            </motion.div>
-          </motion.div>
-
-          {/* Metrics */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
-            className="grid grid-cols-3 gap-8 max-w-sm mx-auto"
-          >
-            {[
-              { value: "−60%", label: "temps de production" },
-              { value: "+35%", label: "productivité sénior" },
-              { value: "90j", label: "premier ROI" },
-            ].map((m) => (
-              <div key={m.value} className="text-center">
-                <div className="text-2xl font-bold tabular-nums" style={{ color: "#1A3A5C" }}>{m.value}</div>
-                <div className="text-xs text-[#595959] mt-1 leading-snug">{m.label}</div>
-              </div>
-            ))}
+            </div>
           </motion.div>
         </motion.div>
       </div>

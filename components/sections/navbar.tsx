@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import Logo from "@/components/ui/logo";
 
 const solutionItems = [
   {
@@ -51,11 +52,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-[#E2E8F0]">
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-0.5 font-bold text-xl tracking-tight">
-          <span style={{ color: "#1A3A5C" }}>LEAN</span>
-          <span style={{ color: "#C0392B" }}>Max</span>
-        </Link>
+        <Logo />
 
         {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-8">

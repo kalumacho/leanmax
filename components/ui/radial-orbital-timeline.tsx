@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import type { LucideIcon } from "lucide-react";
 
 interface TimelineItem {
   id: number;
   title: string;
   subtitle: string;
   content: string;
-  icon: string;
+  Icon: LucideIcon;
   relatedIds: number[];
   color: string;
-  energy: number;
 }
 
 interface RadialOrbitalTimelineProps {
@@ -60,47 +60,54 @@ export default function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTim
   useEffect(() => {
     if (!autoRotate) return;
     const timer = setInterval(() => {
-      setRotationAngle((prev) => Number(((prev + 0.3) % 360).toFixed(3)));
+      setRotationAngle((prev) => Number(((prev + 0.25) % 360).toFixed(3)));
     }, 50);
     return () => clearInterval(timer);
   }, [autoRotate]);
 
   const calcPos = (index: number) => {
     const angle = ((index / timelineData.length) * 360 + rotationAngle) % 360;
-    const radius = 180;
+    const radius = 185;
     const rad = (angle * Math.PI) / 180;
     return {
       x: radius * Math.cos(rad),
       y: radius * Math.sin(rad),
       zIndex: Math.round(100 + 50 * Math.cos(rad)),
-      opacity: Math.max(0.4, Math.min(1, 0.4 + 0.6 * ((1 + Math.sin(rad)) / 2))),
+      opacity: Math.max(0.35, Math.min(1, 0.35 + 0.65 * ((1 + Math.sin(rad)) / 2))),
     };
   };
 
   return (
     <div
-      className="w-full h-[500px] flex items-center justify-center overflow-hidden relative"
+      className="w-full h-[520px] flex items-center justify-center overflow-hidden relative"
       ref={containerRef}
       onClick={handleContainerClick}
     >
-      <div className="relative flex items-center justify-center" style={{ width: 420, height: 420 }}>
+      <div className="relative flex items-center justify-center" style={{ width: 430, height: 430 }}>
         {/* Center orb */}
-        <div className="absolute w-16 h-16 rounded-full z-10 flex items-center justify-center"
-          style={{ background: "linear-gradient(135deg, #1A3A5C, #C0392B)" }}>
-          <div className="absolute w-20 h-20 rounded-full border border-white/20 animate-ping opacity-60" />
-          <div className="absolute w-24 h-24 rounded-full border border-white/10 animate-ping opacity-40"
-            style={{ animationDelay: "0.5s" }} />
-          <span className="text-white text-xs font-bold tracking-wider">LM</span>
+        <div className="absolute z-10 flex items-center justify-center"
+          style={{ width: 60, height: 60 }}>
+          <div className="absolute inset-0 rounded-full"
+            style={{ background: "linear-gradient(135deg, #1A3A5C 0%, #C0392B 100%)" }} />
+          <div className="absolute rounded-full border border-white/15 animate-ping"
+            style={{ width: 76, height: 76, animationDuration: "2.5s" }} />
+          <div className="absolute rounded-full border border-white/08 animate-ping"
+            style={{ width: 92, height: 92, animationDuration: "2.5s", animationDelay: "0.8s" }} />
+          <span className="relative text-white text-[11px] font-bold tracking-widest z-10">LM</span>
         </div>
 
         {/* Orbit ring */}
-        <div className="absolute rounded-full border border-white/10" style={{ width: 380, height: 380 }} />
+        <div className="absolute rounded-full"
+          style={{ width: 390, height: 390, border: "1px solid rgba(255,255,255,0.07)" }} />
 
         {timelineData.map((item, index) => {
           const pos = calcPos(index);
           const isExpanded = expandedItems[item.id];
-          const isRelated = activeNodeId ? timelineData.find(i => i.id === activeNodeId)?.relatedIds.includes(item.id) : false;
+          const isRelated = activeNodeId
+            ? timelineData.find(i => i.id === activeNodeId)?.relatedIds.includes(item.id)
+            : false;
           const isPulsing = pulseEffect[item.id];
+          const { Icon } = item;
 
           return (
             <div
@@ -115,51 +122,94 @@ export default function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTim
             >
               {/* Pulse halo */}
               {isPulsing && (
-                <div className="absolute -inset-4 rounded-full animate-pulse"
-                  style={{ background: `radial-gradient(circle, ${item.color}40 0%, transparent 70%)` }} />
+                <div className="absolute rounded-full animate-pulse pointer-events-none"
+                  style={{
+                    inset: -16,
+                    background: `radial-gradient(circle, ${item.color}35 0%, transparent 70%)`,
+                  }} />
               )}
 
-              {/* Node */}
+              {/* Node — taille uniforme, icône Lucide */}
               <div
-                className={`w-11 h-11 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                  isExpanded ? "scale-150 shadow-lg" : isRelated ? "scale-110" : ""
-                }`}
+                className="flex items-center justify-center rounded-full transition-all duration-300"
                 style={{
-                  background: isExpanded ? item.color : isRelated ? `${item.color}80` : "#0F1E2E",
-                  borderColor: isExpanded ? item.color : isRelated ? item.color : "rgba(255,255,255,0.3)",
-                  boxShadow: isExpanded ? `0 0 20px ${item.color}60` : "none",
+                  width: 44,
+                  height: 44,
+                  background: isExpanded
+                    ? item.color
+                    : isRelated
+                    ? `${item.color}50`
+                    : "rgba(15,30,46,0.9)",
+                  border: `1.5px solid ${
+                    isExpanded ? item.color : isRelated ? item.color : "rgba(255,255,255,0.2)"
+                  }`,
+                  boxShadow: isExpanded
+                    ? `0 0 0 6px ${item.color}25, 0 0 24px ${item.color}40`
+                    : isRelated
+                    ? `0 0 0 3px ${item.color}20`
+                    : "none",
+                  transform: isExpanded ? "scale(1.4)" : isRelated ? "scale(1.1)" : "scale(1)",
                 }}
               >
-                <span className="text-lg">{item.icon}</span>
+                <Icon
+                  size={16}
+                  color={isExpanded ? "#fff" : isRelated ? "#fff" : item.color}
+                  strokeWidth={1.8}
+                />
               </div>
 
               {/* Label */}
-              <div className={`absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold tracking-wide transition-all duration-300 ${
-                isExpanded ? "text-white scale-110" : "text-white/70"
-              }`}>
+              <div
+                className="absolute whitespace-nowrap text-[11px] font-medium tracking-wide transition-all duration-300 pointer-events-none"
+                style={{
+                  top: 50,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  color: isExpanded ? "#fff" : "rgba(255,255,255,0.6)",
+                  letterSpacing: "0.04em",
+                }}
+              >
                 {item.title}
               </div>
 
               {/* Expanded card */}
               {isExpanded && (
-                <div className="absolute top-20 left-1/2 -translate-x-1/2 w-56 rounded-xl border border-white/20 p-4 shadow-xl"
-                  style={{ background: "rgba(15, 30, 46, 0.95)", backdropFilter: "blur(12px)" }}>
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-white/40" />
-                  <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: item.color }}>
+                <div
+                  className="absolute w-60 rounded-2xl p-5 shadow-2xl"
+                  style={{
+                    top: 62,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    background: "rgba(10,20,36,0.97)",
+                    backdropFilter: "blur(16px)",
+                    border: `1px solid ${item.color}40`,
+                  }}
+                >
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-px h-2.5"
+                    style={{ background: item.color }} />
+                  <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5"
+                    style={{ color: item.color }}>
                     {item.subtitle}
                   </p>
-                  <p className="text-white font-semibold text-sm mb-2">{item.title}</p>
-                  <p className="text-white/70 text-xs leading-relaxed">{item.content}</p>
+                  <p className="text-white font-semibold text-sm mb-2 leading-snug">{item.title}</p>
+                  <p className="text-white/60 text-xs leading-relaxed">{item.content}</p>
                   {item.relatedIds.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-white/10">
-                      <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Connecté à</p>
-                      <div className="flex flex-wrap gap-1">
+                    <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                      <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Connecté à</p>
+                      <div className="flex flex-wrap gap-1.5">
                         {item.relatedIds.map((rId) => {
                           const related = timelineData.find((i) => i.id === rId);
                           return (
-                            <button key={rId}
-                              className="text-[10px] px-2 py-0.5 rounded border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors"
-                              onClick={(e) => { e.stopPropagation(); toggleItem(rId); }}>
+                            <button
+                              key={rId}
+                              className="text-[11px] px-2.5 py-1 rounded-lg transition-all duration-200"
+                              style={{
+                                border: "1px solid rgba(255,255,255,0.15)",
+                                color: "rgba(255,255,255,0.55)",
+                                background: "rgba(255,255,255,0.04)",
+                              }}
+                              onClick={(e) => { e.stopPropagation(); toggleItem(rId); }}
+                            >
                               {related?.title}
                             </button>
                           );
