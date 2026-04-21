@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>LeanMax — Plaquette Commerciale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #1A3A5C;
+      --red:  #C0392B;
+      --gold: #E8C47A;
+      --sec:  #595959;
+      --cream: #FAF8F4;
+      --border: #E8E8E8;
+    }
+
+    html { background: #fff; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #1A1A1A;
+      max-width: 430px;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SECTION LABEL ── */
+    .st {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--red);
+      display: block;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--navy);
+      padding: 52px 24px 36px;
+      padding-top: calc(52px + env(safe-area-inset-top));
+      color: white;
+    }
+    .wordmark {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .wordmark .lean { color: white; }
+    .wordmark .max  { color: var(--red); }
+    .tagline {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.6;
+    }
+
+    /* ── GENERIC SECTION ── */
+    .section {
+      padding: 32px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-cream {
+      background: var(--cream);
+    }
+
+    /* ── BULLETS ── */
+    .bl { list-style: none; }
+    .bl li {
+      font-family: Georgia, serif;
+      font-size: 15px;
+      color: #1A1A1A;
+      padding: 9px 0 9px 14px;
+      line-height: 1.58;
+      border-left: 2px solid var(--navy);
+      margin-bottom: 8px;
+    }
+    .bl li:last-child { margin-bottom: 0; }
+
+    /* ── SUB HEADING ── */
+    .sub {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 24px 0 12px;
+    }
+    .sub:first-child { margin-top: 0; }
+
+    .col-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sec);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    /* ── GEN AI SCHEMA ── */
+    .schema {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .s-box {
+      background: var(--navy);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 11px 16px;
+      text-align: center;
+      width: 100%;
+      line-height: 1.3;
+    }
+    .s-box .sd {
+      font-size: 11px;
+      font-weight: 400;
+      opacity: 0.82;
+      margin-top: 3px;
+    }
+    .s-box.outline {
+      background: white;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+    }
+    .s-box.outline .sd { color: var(--sec); opacity: 1; }
+    .s-row { display: flex; gap: 4px; width: 100%; }
+    .s-row .s-box { flex: 1; }
+    .s-arrow {
+      color: var(--navy);
+      font-size: 18px;
+      padding: 3px 0;
+      line-height: 1;
+    }
+
+    /* ── GEN AI DESC ── */
+    .gen-ai-desc { display: flex; flex-direction: column; gap: 12px; }
+    .desc-item { display: flex; gap: 10px; align-items: flex-start; }
+    .desc-dot {
+      width: 7px; height: 7px;
+      background: var(--navy);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .desc-text {
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #1A1A1A;
+      line-height: 1.55;
+    }
+    .desc-text strong {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* ── ORBITAL ── */
+    .orbital-phrase {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: var(--sec);
+      line-height: 1.5;
+      text-align: center;
+      font-style: italic;
+      margin-top: 6px;
+    }
+
+    /* ── AVANT / APRÈS ── */
+    .avant-apres {
+      display: flex;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .aa-col { flex: 1; }
+    .aa-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 9px 10px;
+      text-align: center;
+    }
+    .aa-header.hist {
+      background: var(--cream);
+      color: var(--sec);
+      border-right: 1px solid var(--border);
+    }
+    .aa-header.lean { background: var(--navy); color: white; }
+    .aa-item {
+      font-family: Georgia, serif;
+      font-size: 12px;
+      padding: 7px 10px;
+      line-height: 1.4;
+      border-bottom: 1px solid #ebebeb;
+    }
+    .aa-item:last-child { border-bottom: none; }
+    .aa-col.hist .aa-item { background: white; color: var(--sec); border-right: 1px solid var(--border); }
+    .aa-col.hist .aa-item:nth-child(even) { background: var(--cream); }
+    .aa-col.lean .aa-item { background: #eef2f7; color: var(--navy); font-weight: 500; }
+    .aa-col.lean .aa-item:nth-child(even) { background: #dde5ef; }
+    .comp-text {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: var(--sec);
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    /* ── DIFFÉRENCIATEURS ── */
+    .diff-item { margin-bottom: 24px; }
+    .diff-item:last-child { margin-bottom: 0; }
+    .diff-num {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .diff-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+    .diff-text {
+      font-family: Georgia, serif;
+      font-size: 15px;
+      color: #1A1A1A;
+      line-height: 1.55;
+    }
+
+    /* ── MÉTRIQUES ── */
+    .metrics { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: white;
+      border-left: 3px solid var(--navy);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .m-val {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 76px;
+    }
+    .m-lbl { font-size: 14px; color: var(--sec); line-height: 1.4; }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--navy);
+      color: white;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      font-family: Georgia, serif;
+      color: #1A1A1A;
+      font-size: 13px;
+    }
+    tr:nth-child(odd)  td { background: white; }
+    tr:nth-child(even) td { background: #f0efec; }
+    td.after {
+      color: var(--red);
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    /* ── FONDATEURS ── */
+    .founder-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .founder-card:last-child { border-bottom: none; padding-bottom: 0; }
+    .f-photo {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      border: 2px solid var(--navy);
+      flex-shrink: 0;
+    }
+    .f-photo-fallback {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .f-info { flex: 1; }
+    .f-name { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+    .f-role {
+      font-size: 11px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    .f-bio { font-family: Georgia, serif; font-size: 13px; color: var(--sec); line-height: 1.5; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: var(--navy);
+      padding: 36px 24px;
+      padding-bottom: calc(36px + env(safe-area-inset-bottom));
+    }
+    .cta-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .cta-body {
+      font-family: Georgia, serif;
+      font-size: 15px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .cta-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--red);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 20px;
+      letter-spacing: 0.3px;
+      min-height: 48px;
+      margin-bottom: 32px;
+      line-height: 1.3;
+    }
+
+    /* ── CONTACT LIST ── */
+    .contact-list { list-style: none; }
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .contact-list li:last-child { border-bottom: none; }
+    .contact-list a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .contact-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="wordmark"><span class="lean">Lean</span><span class="max">Max</span></div>
+    <div class="tagline">Scalez par la puissance, pas par la masse.</div>
+    <div class="subtitle">L'infrastructure IA des cabinets de conseil — pour industrialiser la delivery, capitaliser le savoir et préserver la valeur sénior.</div>
+  </header>
+
+  <!-- ── LE CONSEIL SOUS PRESSION ── -->
+  <section class="section">
+    <span class="st">Le conseil sous pression</span>
+    <ul class="bl">
+      <li>Le conseil ne pourra plus défendre durablement un modèle fondé sur le temps humain.</li>
+      <li>L'IA compresse les marges : production commoditisée, middle management en recul, livrables réplicables par des modèles.</li>
+      <li>Ce qui était rare devient commun. Ce qui était junior devient automatisable. Le nombre de consultants n'est plus un levier de performance.</li>
+      <li>La valeur se déplace vers ce qui restera rare : le jugement, la méthode, la gouvernance — pas le livrable.</li>
+    </ul>
+  </section>
+
+  <!-- ── NOTRE RÉPONSE ── -->
+  <section class="section">
+    <span class="st">Notre réponse</span>
+
+    <div class="sub">Infrastructure de Delivery</div>
+    <div class="col-label">Gen AI Documentaire</div>
+
+    <div class="schema">
+      <div class="s-box">IA AMONT<div class="sd">Synthèses · cadrage · veille</div></div>
+      <div class="s-arrow">↓</div>
+      <div class="s-row">
+        <div class="s-box outline">Produits structurés<div class="sd">Clients finaux</div></div>
+        <div class="s-box outline">Activités internes<div class="sd">Cabinet</div></div>
+      </div>
+      <div class="s-arrow">↓</div>
+      <div class="s-box">IA AVAL<div class="sd">Mise en forme · red team · REX</div></div>
+    </div>
+
+    <div class="gen-ai-desc">
+      <div class="desc-item">
+        <div class="desc-dot"></div>
+        <div class="desc-text"><strong>IA Amont</strong> — Préparation automatisée de chaque mission : synthèses sectorielles, veille, cadrage client.</div>
+      </div>
+      <div class="desc-item">
+        <div class="desc-dot"></div>
+        <div class="desc-text"><strong>Produits structurés</strong> — Livrables conseil entièrement automatisés, livrés aux clients finaux en marque blanche.</div>
+      </div>
+      <div class="desc-item">
+        <div class="desc-dot"></div>
+        <div class="desc-text"><strong>Activités internes</strong> — Industrialisation des tâches cabinet : prospection, reporting, suivi.</div>
+      </div>
+      <div class="desc-item">
+        <div class="desc-dot"></div>
+        <div class="desc-text"><strong>IA Aval</strong> — Post-production augmentée : mise en forme, red team IA, dashboards clients, REX.</div>
+      </div>
+    </div>
+
+    <div class="col-label" style="margin-top:28px;">Interface de mission augmentée</div>
+    <svg viewBox="0 0 380 190" style="width:100%;height:auto;display:block;" preserveAspectRatio="xMidYMid meet">
+      <ellipse cx="190" cy="95" rx="130" ry="52" fill="none" stroke="#1A3A5C" stroke-width="0.9" stroke-dasharray="4,3" opacity="0.45"/>
+      <circle cx="190" cy="95" r="30" fill="#1A3A5C"/>
+      <text x="190" y="91" text-anchor="middle" fill="white" font-size="7" font-family="Inter, sans-serif" font-weight="700">AGENT</text>
+      <text x="190" y="102" text-anchor="middle" fill="white" font-size="7" font-family="Inter, sans-serif" font-weight="700">ORCHEST.</text>
+      <line x1="190" y1="65" x2="190" y2="43" stroke="#1A3A5C" stroke-width="0.6" opacity="0.25"/>
+      <line x1="218" y1="107" x2="265" y2="140" stroke="#1A3A5C" stroke-width="0.6" opacity="0.25"/>
+      <line x1="162" y1="107" x2="115" y2="140" stroke="#1A3A5C" stroke-width="0.6" opacity="0.25"/>
+      <line x1="219" y1="84" x2="309" y2="78" stroke="#1A3A5C" stroke-width="0.6" opacity="0.25"/>
+      <line x1="161" y1="84" x2="71" y2="78" stroke="#1A3A5C" stroke-width="0.6" opacity="0.25"/>
+      <circle cx="190" cy="43" r="16" fill="white" stroke="#1A3A5C" stroke-width="1.2"/>
+      <rect x="184" y="37" width="12" height="8" rx="1" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <rect x="187" y="42" width="6" height="3" rx="0.5" fill="#1A3A5C"/>
+      <text x="190" y="22" text-anchor="middle" fill="#1A1A1A" font-size="8.5" font-family="Inter, sans-serif" font-weight="600">Cabinet</text>
+      <circle cx="314" cy="79" r="16" fill="white" stroke="#1A3A5C" stroke-width="1.2"/>
+      <circle cx="314" cy="76" r="5" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <path d="M307,86 Q314,80 321,86" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <text x="334" y="83" text-anchor="start" fill="#1A1A1A" font-size="8.5" font-family="Inter, sans-serif" font-weight="600">Métiers</text>
+      <circle cx="266" cy="137" r="16" fill="white" stroke="#1A3A5C" stroke-width="1.2"/>
+      <circle cx="263" cy="133" r="4" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <circle cx="270" cy="133" r="4" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <path d="M258,142 Q266,136 274,142" fill="none" stroke="#1A3A5C" stroke-width="1"/>
+      <text x="266" y="162" text-anchor="middle" fill="#1A1A1A" font-size="8.5" font-family="Inter, sans-serif" font-weight="600">Clients</text>
+      <circle cx="114" cy="137" r="16" fill="white" stroke="#1A3A5C" stroke-width="1.2"/>
+      <polyline points="107,143 110,137 114,140 118,133 121,137" fill="none" stroke="#1A3A5C" stroke-width="1" stroke-linejoin="round"/>
+      <text x="114" y="162" text-anchor="middle" fill="#1A1A1A" font-size="8.5" font-family="Inter, sans-serif" font-weight="600">Marché</text>
+      <circle cx="66" cy="79" r="16" fill="white" stroke="#1A3A5C" stroke-width="1.2"/>
+      <line x1="60" y1="85" x2="72" y2="73" stroke="#1A3A5C" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="58" y1="87" x2="61" y2="84" stroke="#1A3A5C" stroke-width="2" stroke-linecap="round"/>
+      <line x1="71" y1="71" x2="74" y2="74" stroke="#C0392B" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="46" y="83" text-anchor="end" fill="#1A1A1A" font-size="8.5" font-family="Inter, sans-serif" font-weight="600">Redline</text>
+    </svg>
+    <div class="orbital-phrase">Gardiens du contexte mission — chaque réponse ancrée dans vos documents, votre secteur et vos méthodes.</div>
+  </section>
+
+  <!-- ── MONTÉE EN COMPÉTENCE ── -->
+  <section class="section">
+    <div class="sub" style="margin-top:0;">Infrastructure de Montée en Compétence</div>
+    <div class="avant-apres">
+      <div class="aa-col hist">
+        <div class="aa-header hist">Modèle historique</div>
+        <div class="aa-item">Junior observe</div>
+        <div class="aa-item">Junior produit</div>
+        <div class="aa-item">Senior corrige</div>
+        <div class="aa-item">Expérience lente</div>
+        <div class="aa-item">Transmission informelle</div>
+      </div>
+      <div class="aa-col lean">
+        <div class="aa-header lean">Modèle LeanMax</div>
+        <div class="aa-item">Le savoir est capturé</div>
+        <div class="aa-item">L'IA transforme en modules</div>
+        <div class="aa-item">Le tuteur IA accompagne</div>
+        <div class="aa-item">La progression est mesurée</div>
+        <div class="aa-item">La seniorisation devient pilotable</div>
+      </div>
+    </div>
+    <div class="comp-text">Formation continue générée depuis le savoir du cabinet. Tuteur IA 24/7, podcasts, tests, suivi collaborateur. Quand l'IA absorbe le travail junior, le cabinet préserve sa machine à former les séniors.</div>
+  </section>
+
+  <!-- ── POURQUOI LEANMAX ── -->
+  <section class="section">
+    <span class="st">Pourquoi LeanMax</span>
+    <div class="diff-item">
+      <div class="diff-num">1</div>
+      <div class="diff-title">Vertical conseil</div>
+      <div class="diff-text">La logique métier cabinet est dans le produit, pas plaquée dessus. Dust et Mistral sont horizontaux. LeanMax est vertical.</div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-num">2</div>
+      <div class="diff-title">Double infrastructure</div>
+      <div class="diff-text">Delivery ET compétence dans une seule offre. Les deux enjeux de transformation du cabinet couverts simultanément.</div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-num">3</div>
+      <div class="diff-title">Intérêts alignés</div>
+      <div class="diff-text">Modèle forfait, jamais de TJM. LeanMax gagne quand le cabinet gagne.</div>
+    </div>
+  </section>
+
+  <!-- ── RÉSULTATS ── -->
+  <section class="section section-cream">
+    <span class="st">Ce que ça donne concrètement</span>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="m-val">−60%</div>
+        <div class="m-lbl">temps de production documentaire</div>
+      </div>
+      <div class="metric">
+        <div class="m-val">+35%</div>
+        <div class="m-lbl">productivité sénior phases delivery</div>
+      </div>
+      <div class="metric">
+        <div class="m-val">90j</div>
+        <div class="m-lbl">premier ROI mesurable</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Cas d'usage</th><th>Avant</th><th>Après</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Note de cadrage sectorielle</td><td>3 jours</td><td class="after">4 heures</td></tr>
+        <tr><td>Étude de marché</td><td>2 semaines</td><td class="after">3 jours</td></tr>
+        <tr><td>Mapping des flux Invoicing</td><td>2 mois</td><td class="after">2 semaines</td></tr>
+        <tr><td>Cahier des charges</td><td>1 mois</td><td class="after">1 semaine</td></tr>
+        <tr><td>Target Operating Model</td><td>2 mois</td><td class="after">2 semaines</td></tr>
+        <tr><td>Formalisation cas d'usages</td><td>3 mois</td><td class="after">1 mois</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── FONDATEURS ── -->
+  <section class="section">
+    <span class="st">Les fondateurs</span>
+
+    <div class="founder-card">
+      <img class="f-photo" src="/Photo Ilan.jpg" alt="Ilan Saidi-Bekerman"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="f-photo-fallback" style="display:flex">IS</div>
+      <div class="f-info">
+        <div class="f-name">Ilan Saidi-Bekerman</div>
+        <div class="f-role">CEO</div>
+        <div class="f-bio">Ex-DG de Latitude, 1er lanceur orbital privé français — 60M€ levés, 160 ingénieurs. Scale, fundraising, produits IA.</div>
+      </div>
+    </div>
+
+    <div class="founder-card">
+      <img class="f-photo" src="/Sacha.jpg" alt="Sacha Cames"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="f-photo-fallback" style="display:flex">SC</div>
+      <div class="f-info">
+        <div class="f-name">Sacha Cames</div>
+        <div class="f-role">COO / CFO</div>
+        <div class="f-bio">Consultant manager en transformation IA — BNP, Kering. 10M€ de cost saving. PMO exécutif multi-entités.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA + CONTACT ── -->
+  <section class="cta-section">
+    <span class="st" style="color:var(--gold);border-color:rgba(232,196,122,0.4);">Premier pas</span>
+    <div class="cta-title">Diagnostic gratuit sur une business line</div>
+    <div class="cta-body">Identification des 3 cas d'usage à ROI immédiat.<br><br>Ou accès démo.</div>
+    <div class="cta-pill">Pilote 90 jours · forfait fixe · pas de TJM</div>
+
+    <ul class="contact-list">
+      <li>
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <a href="mailto:ilan.s.bek@gmail.com">ilan.s.bek@gmail.com</a>
+      </li>
+      <li>
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.58 4.39 2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <a href="tel:+33687565179">06 87 56 51 79</a>
+      </li>
+      <li>
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <a href="https://leanmax.vercel.app" target="_blank" rel="noopener">leanmax.vercel.app</a>
+      </li>
+    </ul>
+  </section>
+
+</body>
+</html>
