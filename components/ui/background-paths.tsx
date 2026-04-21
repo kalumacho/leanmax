@@ -65,12 +65,12 @@ export function BackgroundPaths() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setTitleNumber((prev) => (prev === titles.length - 1 ? 0 : prev + 1));
-    }, 2000);
+    }, 2800);
     return () => clearTimeout(timeoutId);
   }, [titleNumber, titles]);
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-neutral-950">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#1A3A5C]">
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
@@ -118,12 +118,12 @@ export function BackgroundPaths() {
                   key={index}
                   className="absolute inset-0 flex items-center justify-center font-bold text-transparent bg-clip-text whitespace-nowrap"
                   style={{ backgroundImage: "linear-gradient(to right, #E85D4A, #C0392B)" }}
-                  initial={{ opacity: 0, y: 80 }}
-                  transition={{ type: "spring", stiffness: 60, damping: 20 }}
+                  initial={{ opacity: 0, y: 60 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   animate={
                     titleNumber === index
                       ? { y: 0, opacity: 1 }
-                      : { y: titleNumber > index ? -80 : 80, opacity: 0 }
+                      : { y: titleNumber > index ? -60 : 60, opacity: 0 }
                   }
                 >
                   {title}
